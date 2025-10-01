@@ -1,6 +1,9 @@
-# Write your MySQL query statement below
+WITH t AS(
+SELECT COUNT(student) as kids,class
+FROM Courses
+GROUP BY class)
+
 
 SELECT class
-FROM Courses
-GROUP BY class
-HAVING COUNT(*)>4
+FROM t
+WHERE kids>4
