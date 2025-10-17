@@ -1,4 +1,3 @@
-
 SELECT e2.employee_id,e2.name, COUNT(*) AS reports_count, ROUND(AVG(e1.age),0) AS average_age
 FROM Employees e1
 INNER JOIN Employees e2
