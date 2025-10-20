@@ -1,5 +1,7 @@
-# Write your MySQL query statement below
-SELECT (SELECT DISTINCT salary
-FROM Employee 
-ORDER BY salary DESC
-LIMIT 1 OFFSET 1) AS SecondHighestSalary
+WITH t AS (SELECT id,salary,
+DENSE_RANK() OVER (ORDER BY salary DESC) AS rk
+FROM Employee)
+
+SELECT MAX(salary) AS SecondHighestSalary
+FROM t
+WHERE rk = 2
