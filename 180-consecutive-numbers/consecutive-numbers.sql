@@ -1,4 +1,12 @@
-SELECT DISTINCT l3.num AS ConsecutiveNums
-FROM Logs l1
-JOIN Logs l2 ON l1.id = l2.id - 1 AND l1.num = l2.num
-JOIN Logs l3 ON l1.id = l3.id -2 AND l1.num = l3.num
+WITH t AS (SELECT 
+num,id,
+LEAD(id,1) OVER (PARTITION BY num ORDER BY id) AS 1lead,
+LEAD(id,2) OVER (PARTITION BY num ORDER BY id) AS 2lead
+FROM Logs)
+
+
+
+SELECT DISTINCT num AS ConsecutiveNums
+FROM t
+WHERE id = 1lead-1 AND id = 2lead-2 
+
