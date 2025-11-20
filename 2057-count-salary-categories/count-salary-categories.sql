@@ -1,11 +1,15 @@
-SELECT 'Low Salary' AS category, COUNT(*) AS accounts_count
-FROM Accounts
-WHERE income < 20000
-UNION 
-SELECT 'Average Salary' AS category, COUNT(*) AS accounts_count
-FROM Accounts
-WHERE income BETWEEN 20000 AND 50000
-UNION 
-SELECT 'High Salary' AS category, COUNT(*) AS accounts_count
-FROM Accounts
-WHERE income > 50000
+WITH t AS (SELECT 'Low Salary' AS category
+UNION ALL SELECT 'Average Salary' UNION ALL SELECT 'High Salary'),
+
+t1 AS (SELECT
+    CASE 
+    WHEN income<20000 THEN 'Low Salary'
+    WHEN income >= 20000 AND income <= 50000 THEN 'Average Salary' 
+    ELSE 'High Salary' END AS category
+FROM Accounts)
+
+SELECT t.category, COUNT(t1.category) AS accounts_count
+FROM t
+LEFT JOIN t1
+ON t.category = t1.category
+GROUP BY t.category
