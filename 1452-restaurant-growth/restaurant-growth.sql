@@ -7,5 +7,6 @@ SELECT visited_on,SUM(amount) OVER (ORDER BY visited_on ROWS BETWEEN 6 PRECEDING
 ROUND(AVG(amount) OVER (ORDER BY visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW),2) AS  average_amount
 FROM DailyTotals
 ORDER BY visited_on
-LIMIT 50
+LIMIT 100
 OFFSET 6
+
