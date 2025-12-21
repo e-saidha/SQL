@@ -1,13 +1,13 @@
-# Write your MySQL query statement below
-WITH t1 AS(SELECT requester_id AS id, COUNT(requester_id) AS friends
-FROM RequestAccepted AS r
-GROUP BY requester_id
+WITH t AS 
+
+(SELECT requester_id AS id
+FROM RequestAccepted
 UNION ALL
-SELECT accepter_id AS id, COUNT(accepter_id) AS friends
-FROM RequestAccepted AS r
-GROUP BY accepter_id)
-SELECT id, SUM(friends) AS num
-FROM t1
+SELECT accepter_id 
+FROM RequestAccepted)
+
+SELECT id, COUNT(*) AS num
+FROM t
 GROUP BY id
-ORDER BY num DESC
+ORDER BY COUNT(*) DESC
 LIMIT 1
